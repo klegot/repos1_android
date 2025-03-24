@@ -1,5 +1,16 @@
 package com.example.myapplication
 
+import com.example.myapplication.library_res.Books
+import com.example.myapplication.library_res.Digital
+import com.example.myapplication.library_res.Disk
+import com.example.myapplication.library_res.Library
+import com.example.myapplication.library_res.Newspapers
+import com.example.myapplication.obrabotka.fun4_filter
+import com.example.myapplication.stores.BookShop
+import com.example.myapplication.stores.DiskShop
+import com.example.myapplication.stores.Manager
+import com.example.myapplication.stores.NewspaperShop
+
 val book1 = Books(1, true, "книга1", 350, "автор1")
 val book2 = Books(2, false, "книга2", 350, "автор2")
 val book3 = Books(3, true, "книга3", 350, "автор3")
@@ -16,10 +27,6 @@ val spisok_vsego: List<Library> = listOf(book1, book2, book3, newspaper1, newspa
 var arrBooks = fun4_filter<Books>(spisok_vsego)
 var arrPapers = fun4_filter<Newspapers>(spisok_vsego)
 var arrDisks = fun4_filter<Disk>(spisok_vsego)
-
-inline fun <reified Type : Library> fun4_filter(items: List<Library>): List<Type> {
-    return items.filterIsInstance<Type>()
-}
 
 fun main()
 {
@@ -97,15 +104,6 @@ fun main()
     }
 }
 
-abstract class Library(
-    val Id: Int,
-    var dostup: Boolean,
-    val name: String
-) {
-    abstract fun kratko(): String
-    abstract fun podrobno(): String
-}
-
 fun action(item: Library) {
     while (true) {
         println("\nВыберите действие для ${item.name}:")
@@ -118,13 +116,13 @@ fun action(item: Library) {
 
         when (readlnOrNull()?.toIntOrNull()) {
             1 -> {
-                if (item.dostup) println("${item.name} ${item.Id} взяли домой") else println("объект недоступен")
-                item.dostup = false
+                if (item.isAvailable) println("${item.name} ${item.Id} взяли домой") else println("объект недоступен")
+                item.isAvailable = false
                 return
             }
             2 -> {
-                if (item.dostup) println("${item.name} ${item.Id} взяли в читальный зал") else println("объект недоступен")
-                item.dostup = false
+                if (item.isAvailable) println("${item.name} ${item.Id} взяли в читальный зал") else println("объект недоступен")
+                item.isAvailable = false
                 return
             }
             3 -> {
@@ -132,8 +130,8 @@ fun action(item: Library) {
                 println(item.podrobno())
             }
             4 -> {
-                if (item.dostup) println("${item.name} и так доступен") else println("вернули ${item.name} ${item.Id}")
-                item.dostup = true
+                if (item.isAvailable) println("${item.name} и так доступен") else println("вернули ${item.name} ${item.Id}")
+                item.isAvailable = true
                 return
             }
             5 -> {
@@ -151,8 +149,4 @@ fun action(item: Library) {
             else -> println("неверный выбор, попробуйте еще")
         }
     }
-}
-
-interface Shop {
-    fun sell(): Library
 }

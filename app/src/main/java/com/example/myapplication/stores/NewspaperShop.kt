@@ -1,4 +1,8 @@
-package com.example.myapplication
+package com.example.myapplication.stores
+
+import com.example.myapplication.library_res.Library
+import com.example.myapplication.arrPapers
+import com.example.myapplication.library_res.Newspapers
 
 class NewspaperShop : Shop {
     override fun sell(): Library {

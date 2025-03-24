@@ -1,4 +1,8 @@
-package com.example.myapplication
+package com.example.myapplication.stores
+
+import com.example.myapplication.library_res.Library
+import com.example.myapplication.arrDisks
+import com.example.myapplication.library_res.Disk
 
 class DiskShop : Shop {
     override fun sell(): Library {
